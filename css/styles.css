@@ -1,3 +1,9 @@
 body {
     background-color: grey;
 }
+
+#drop-area{
+    background-color: purple;
+    width: 300px;
+    height: 300px;
+}

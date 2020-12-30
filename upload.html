@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
 
-    <title>SWRPG Character Sheets</title>
+    <title>upload - SWRPG Character Sheets</title>
     <meta name="description" content="Star Wars Character Sheets - creating and storing character sheets for SWRPG">
     <meta name="author" content="">
 
@@ -13,12 +13,15 @@
 </head>
 <navbar id="nav-placeholder"></navbar>
 <body>
+    <div id="drop-area"></div>
+    <input id="file-selector" type="file" accept=".json" multiple >
     
     <script src="scripts/jquery-3.5.1.min.js"></script>
     <script src="scripts/constants.js"></script>
     <script src="scripts/siteBuilder.js"></script>
+    <script src="scripts/upload.js"></script>
     <script>
-        SiteBuilder.buildNavBar("characters");
+        SiteBuilder.buildNavBar("upload");
     </script>
 </body>
 </html>
