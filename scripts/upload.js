@@ -1,16 +1,17 @@
 // const fileSelector = $("#file-selector");
-const fileSelect = document.getElementById("fileSelect"),
+const fileSelect = $("#fileSelect"),
   fileElem = $("#fileElem");
 
-fileSelect.addEventListener("click", function (e) {
+fileSelect.on("click", function (e) {
   if (fileElem) {
     fileElem.click();
   }
-}, false);
+});
 
 function onReaderLoad(event){
-  console.log("event result" + event.target.result);
+  // console.log("event result" + event.target.result);
   var obj = JSON.parse(event.target.result);
+  console.log(obj);
   alert_data();
 }
 
@@ -18,17 +19,19 @@ function alert_data(){
   alert('We have uploaded');
 }
 
-
+var fileListG;
 fileElem.on('change', (event) => {
     const fileList = event.target.files;
-    // console.log(fileList);
+    fileListG = event.target.files;
+    console.log(fileList);
+    console.log(fileList.length);
     var reader = new FileReader();
-    reader.onLoad = onReaderLoad;
+    reader.onload = onReaderLoad;
     // fileList.forEach(element => {
     //   reader.readAsText(element);  
     // });
     for (let i = 0, numFiles = fileList.length; i < numFiles; i++) {
-      console.log("reading file " + i)
+      console.log("reading file " + i + " of " + numFiles)
       reader.readAsText(fileList[i]);
     }
     
