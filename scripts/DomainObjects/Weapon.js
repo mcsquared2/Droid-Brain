@@ -12,6 +12,8 @@ class Weapon{
         this.Restricted = restricted;
         this.Rarity = rarity;
         this.Qualities = qualities;
-        this.Abilities = abilities; 
+        this.Abilities = abilities;
+        this.BookSet = bookSet;
+        this.Source = source; 
     }
 }
