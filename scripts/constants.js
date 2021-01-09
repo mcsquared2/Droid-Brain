@@ -25,3 +25,15 @@ PAGES = {
         "display": "Upload Data"
     }
 }
+
+TABLE_BUILD_PROPERTIES = {
+    class: "",
+}
+
+ROW_BUILD_PROPERTIES = {
+    class:""
+}
+
+// BASE_SCRIPT_LINKS = {
+//     ""
+// }

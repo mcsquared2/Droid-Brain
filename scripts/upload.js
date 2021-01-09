@@ -10,6 +10,11 @@ fileSelect.on("click", function (e) {
 function onReaderLoad(event){
   var obj = JSON.parse(event.target.result);
   console.log(obj);
+  if (obj.Ordnances){
+    DAL.Ordnance.BatchInsert(obj.Ordnances);
+  }
+  
+
   alert_data();
 }
 
