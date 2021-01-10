@@ -11,6 +11,7 @@ function onReaderLoad(event){
   var obj = JSON.parse(event.target.result);
   console.log(obj);
   if (obj.Ordnances){
+    console.log("updating ordnances");
     DAL.Ordnance.BatchInsert(obj.Ordnances);
   }
   

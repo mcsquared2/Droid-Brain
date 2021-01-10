@@ -1,9 +1,10 @@
 var SiteBuilder = {
     Build: {
-        Table: function (placeholderId, id, properties=TABLE_BUILD_PROPERTIES){
-            var table = $("<table>").class(properties.class).id(id);
+        Table: function (placeholderId, id, headerRow, properties=TABLE_BUILD_PROPERTIES){
+            var table = $("<table>").addClass(properties.class).prop("id", id);
             var placeholder = $(placeholderId);
-            placeholder.append(table);  
+            table.append(headerRow);
+            placeholder.append(table);
         },
         NavBar: function (activePage) {
             var links = "<ul>"
@@ -15,19 +16,25 @@ var SiteBuilder = {
             
         },
         OrdnanceRow: function(data, rowProperties) {
-            var row = $("<tr>").class(properties.rowClass);
+            var row = $("<tr>").addClass(properties.rowClass);
             row.append($("td").text(element.Name));
             return row;
+        },
+        OrdnanceHeader: function() {
+            var row = $("<tr>");
+            row.append($("<th>").text("Name"));
+            return row
         }
     },
     Populate: {
-        PopulateOrdnanceTable:function(){
+        OrdnanceTable:function(){
             var table = $("#ordnances");
             if (table.length == 0){
-                SiteBuilder.Build.Table("ordnances-placeholder", "ordnances");
+                SiteBuilder.Build.Table("#ordnances-placeholder", "ordnances", SiteBuilder.Build.OrdnanceHeader());
                 table = $("#ordnances");
             }
-            var data = "";
+            var data = DAL.Ordnance.GetAll();
+            console.log(data);
 
         }
         

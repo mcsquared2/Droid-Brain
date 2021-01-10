@@ -7,57 +7,39 @@ if (!window.indexedDB) {
    window.alert("Your browser doesn't support a stable version of IndexedDB.")
 }
 
-let swrpgdb;
-let swrpgdbReq = indexedDB.open('myDatabase', 2);
+let DB;
+let DBReq = indexedDB.open('myDatabase', 5);
 
-swrpgdbReq.onupgradeneeded = function(event) { 
-   swrpgdb = event.target.result;
+DBReq.onsuccess = function (event){
+  DB = event.target.result;
+}
+
+DBReq.onerror = function(event) {
+  alert('error opening database ' + event.target.errorCode);
+}
+
+DBReq.onupgradeneeded = function(event) { 
+   DB = event.target.result;
  
    
    let CharacterStore;
-   DAL.SetUp.NewObjestStore("Characters", CharacterStore, true); 
+   CharacterStore = DAL.SetUp.NewObjectStore("Characters", true); 
    
    DAL.SetUp.Index(CharacterStore, "Name", false);
 
    let TalentStore;
-   DAL.SetUp.NewObjectStore("Talents", TalentStore, true);
+   TalentStore = DAL.SetUp.NewObjectStore("Talents", true);
 
   // #region WeaponStore Setup
    let WeaponStore;
-   DAL.SetUpObjectStore("Weapons", WeaponStore, true);
-   WeaponStore.createIndex("Name", {unique: true});
-   WeaponStore.createIndex("Skill", {unique: false});
-   WeaponStore.createIndex("Damage", {unique: false});
-   WeaponStore.createIndex("Crit", {unique: false});
-   WeaponStore.createIndex("Range", {unique: false});
-   WeaponStore.createIndex("Encumbrance", {unique: false});
-   WeaponStore.createIndex("HardPoints", {unique: false});
-   WeaponStore.createIndex("Mods", {unique: false});
-   WeaponStore.createIndex("Price", {unique: false});
-   WeaponStore.createIndex("Restricted", {unique: false});
-   WeaponStore.createIndex("Rarity", {unique: false});
-   WeaponStore.createIndex("Qualities", {unique: false});
-   WeaponStore.createIndex("Abilities", {unique: false});
-   WeaponStore.createIndex("BookSet", {unique: false});
-   WeaponStore.createIndex("Source", {unique: false});
+   WeaponStore = DAL.SetUp.NewObjectStore("Weapons", true);
+   WeaponStore.createIndex("Name", true);
    // #endregion
    
   // #region OrdnanceStore Setup
   let OrdnanceStore;
-  DAL.SetUp.NewObjectStore("Ordnances", OrdnanceStore, true);
+  OrdnanceStore = DAL.SetUp.NewObjectStore("Ordnances", true);
   DAL.SetUp.Index(OrdnanceStore, "Name", true);
-  DAL.SetUp.Index(OrdnanceStore, "BaseDamage", false);
-  DAL.SetUp.Index(OrdnanceStore, "AdditionalDamage", false);
-  DAL.SetUp.Index(OrdnanceStore, "Encumbrance", false);
-  DAL.SetUp.Index(OrdnanceStore, "Restricted", false);
-  DAL.SetUp.Index(OrdnanceStore, "Price", false);
-  DAL.SetUp.Index(OrdnanceStore, "Rarity", false);
-  DAL.SetUp.Index(OrdnanceStore, "BlastRadius", false);
-  DAL.SetUp.Index(OrdnanceStore, "AbilityNotes", false);
-  DAL.SetUp.Index(OrdnanceStore, "BookSet", false);
-  DAL.SetUp.Index(OrdnanceStore, "Source", false);
-  console.log("Made it to the first insert.");
-  DAL.Ordnance.Insert(new Ordnance("Boom Boom Stick", 5, 7, 1, false, 125, 5, "short", [], "homebrew", "mcsquared"));
   //#endregion
 
   let ArmorStore;
@@ -73,15 +55,15 @@ swrpgdbReq.onupgradeneeded = function(event) {
 
 let DAL ={
   SetUp: {
-    NewObjectStore: function(storeName, storeVariable, autoIncrement) {
-      if (!swrpgdb.objectStoreNames.contains(storeName)){
-        storeVariable = swrpgdb.createObjectStore(storeName, {autoIncrement: autoIncrement});
+    NewObjectStore: function(storeName, autoIncrement) {
+      if (!DB.objectStoreNames.contains(storeName)){
+        return DB.createObjectStore(storeName, {autoIncrement: autoIncrement});
       } else {
-        storeVariable = swrpgdbReq.transaction.objectStore(storeName);
+        return DBReq.transaction.objectStore(storeName);
       }
     },
     Transaction: function(storeName, action){
-      var transaction = swrpg.transaction([storeName], action);
+      var transaction = DB.transaction([storeName], action);
       transaction.oncomplete = function(event) {
         alert("Finished transaction for " + storeName);
       }
@@ -99,47 +81,47 @@ let DAL ={
       }
     },
   },
-  Ordnance: {
-    Insert: function (ordnance){
-      var transaction = swrpgdb.transaction(["Ordnances"], "readwrite");
-      transaction.oncomplete = function(event) {
-        alert("Added Ordnance to database");
-      };
-    
-      transaction.onerror = function(event) {
-        alert('<li>Transaction not opened due to error. Duplicate items not allowed.');
-      };
-    
-      // create an object store on the transaction
-      var objectStore = transaction.objectStore("Ordnances");
-      console.log(objectStore.keyPath);
-    
-      // Make a request to add our newItem object to the object store
-      var objectStoreRequest = objectStore.add(ordnance);
-    
-      objectStoreRequest.onsuccess = function(event) {
-        // report the success of our request
-        alert("request successful");
-      };
-    },
-    BatchInsert: function(ordnanceList) {
-      ordnanceList.array.forEach(element => {
-        DAL.Ordnance.Insert(element);
-      });
-    },
-    Get: function(filters={}){
-      var transaction = swrpg.transaction(["Ordnances"], "read");
-      transaction.oncomplete = function(event) {
-        alert("Done got dem ordnances");
-      };
+  Base: {
+    Insert: function (storeName, data, success) {
+      var transaction = DAL.SetUp.Transaction(storeName, "readwrite");
 
-      transaction.onerror = function(event) {
-        alert("<li>Transaction not fetched due to error.");
+      var request = transaction.objectStore(storeName).add(data);
+      request.onsuccess = function(event) {
+        alert("Request successful");
+        success();
+      }
+    },
+    BatchInsert: function(storeName, dataList, success){
+      dataList.array.forEach(data => {
+        DAL.Base.Insert(storeName, data, success);
+      })
+    },
+    GetAll: function(storeName, success) {
+      var transaction = DAL.SetUp.Transaction(storeName, "readwrite");
+
+      var store = transaction.objectStore(storeName);
+      var request = store.getAll();
+
+      request.onsuccess = function(event){
+        success(event);
+        console.log(event.target.result);
       }
 
-      var store = transaction.objectStore("Ordnances");
-      console.log(object)
-      
+    }
+  },
+  Ordnance: {
+    Ordnances: [],
+    GetAll: function(filters={}){
+      // There isn't a way currently to do multiple filters with IndexedDB, so my thoughts are to due them in memory. Obviously, this won't
+      // work for large sets of data, but I don't think there would be a table that big, unless someone is really into creating character...
+      if (DAL.Ordnance.Ordnances.length == 0)  {
+        DAL.Base.GetAll("Ordnances", function(event) {
+          console.log("Success!!!!! We done got dem ordnances!");
+          DAL.Ordnance.Ordnances = event.result;
+          console.log(event.result);
+        })
+      }
+      return DAL.Ordnance.Ordnances;
     }
   }
 }

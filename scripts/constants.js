@@ -33,7 +33,3 @@ TABLE_BUILD_PROPERTIES = {
 ROW_BUILD_PROPERTIES = {
     class:""
 }
-
-// BASE_SCRIPT_LINKS = {
-//     ""
-// }
