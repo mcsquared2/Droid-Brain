@@ -9,10 +9,12 @@ fileSelect.on("click", function (e) {
 
 function onReaderLoad(event){
   var obj = JSON.parse(event.target.result);
-  console.log(obj);
-  if (obj.Ordnances){
+  console.log(obj.ordnances);
+  if (obj.ordnances.length){
     console.log("updating ordnances");
-    DAL.Ordnance.BatchInsert(obj.Ordnances);
+    DAL.Base.BatchInsert("Ordnances", obj.ordnances, (event) => {
+      alert("Insert has finished successfully");
+    });
   }
   
 

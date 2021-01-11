@@ -92,9 +92,10 @@ let DAL ={
       }
     },
     BatchInsert: function(storeName, dataList, success){
-      dataList.array.forEach(data => {
-        DAL.Base.Insert(storeName, data, success);
-      })
+      console.log(dataList);
+      // dataList.array.forEach(data => {
+      //   DAL.Base.Insert(storeName, data, success);
+      // })
     },
     GetAll: function(storeName, success) {
       var transaction = DAL.SetUp.Transaction(storeName, "readwrite");
