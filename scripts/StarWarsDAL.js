@@ -12,6 +12,9 @@ let DBReq = indexedDB.open('myDatabase', 5);
 
 DBReq.onsuccess = function (event){
   DB = event.target.result;
+  if (SiteBuilder.Load.OrdnanceData()){
+    DAL.Base.GetAll("Ordnances", SiteBuilder.Populate.OrdnanceTable);
+  }
 }
 
 DBReq.onerror = function(event) {

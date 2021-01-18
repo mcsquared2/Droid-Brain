@@ -26,12 +26,22 @@ var SiteBuilder = {
             return row
         }
     },
+    Load: {
+        OrdnanceData: function() {
+            if ($("#ordnances-placeholder")) {
+                return true
+            }
+            return false;
+        }
+    },
     Populate: {
-        OrdnanceTable:function(){
+        OrdnanceTable:function(data){
             var table = $("#ordnances");
             if (table.length == 0){
                 SiteBuilder.Build.Table("#ordnances-placeholder", "ordnances", SiteBuilder.Build.OrdnanceHeader());
                 table = $("#ordnances");
+            } else {
+                table.empty();
             }
             var data = DAL.Ordnance.GetAll();
             console.log(data);
