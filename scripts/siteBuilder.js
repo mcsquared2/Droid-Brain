@@ -28,7 +28,7 @@ var SiteBuilder = {
     },
     Load: {
         OrdnanceData: function() {
-            if ($("#ordnances-placeholder")) {
+            if ($("#ordnances-placeholder").length > 0) {
                 return true
             }
             return false;
@@ -43,9 +43,8 @@ var SiteBuilder = {
             } else {
                 table.empty();
             }
-            var data = DAL.Ordnance.GetAll();
-            console.log(data);
-
+            // var data = DAL.Ordnance.GetAll();
+            console.log(DAL.Ordnance.Ordnances);
         }
         
     }

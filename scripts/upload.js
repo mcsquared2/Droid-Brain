@@ -13,6 +13,7 @@ function onReaderLoad(event){
   if (obj.ordnances.length){
     console.log("updating ordnances");
     DAL.Base.BatchInsert("Ordnances", obj.ordnances, (event) => {
+      console.log(event);
       alert("Insert has finished successfully");
     });
   }

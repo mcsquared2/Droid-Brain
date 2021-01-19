@@ -33,3 +33,5 @@ TABLE_BUILD_PROPERTIES = {
 ROW_BUILD_PROPERTIES = {
     class:""
 }
+
+CLEAR_STORES = true;

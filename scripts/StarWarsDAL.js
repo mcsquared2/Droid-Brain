@@ -8,13 +8,17 @@ if (!window.indexedDB) {
 }
 
 let DB;
-let DBReq = indexedDB.open('myDatabase', 5);
+let DBReq = indexedDB.open('myDatabase', 6);
 
 DBReq.onsuccess = function (event){
   DB = event.target.result;
   if (SiteBuilder.Load.OrdnanceData()){
+    console.log("Getting all ordnances");
     DAL.Base.GetAll("Ordnances", SiteBuilder.Populate.OrdnanceTable);
   }
+  DAL.Base.Insert("Ordnances", new Ordnance("Boom Boom Stick", 1,1, 1, false, 5, 1, "engaged", "NA", "mcsquared", "homebrew"), (event) => {
+    console.log(event);
+  });
 }
 
 DBReq.onerror = function(event) {
@@ -36,12 +40,12 @@ DBReq.onupgradeneeded = function(event) {
   // #region WeaponStore Setup
    let WeaponStore;
    WeaponStore = DAL.SetUp.NewObjectStore("Weapons", true);
-   WeaponStore.createIndex("Name", true);
+   DAL.SetUp.Index(WeaponStore, "Name", true);
    // #endregion
    
   // #region OrdnanceStore Setup
   let OrdnanceStore;
-  OrdnanceStore = DAL.SetUp.NewObjectStore("Ordnances", true);
+  OrdnanceStore = DAL.SetUp.NewObjectStore("Ordnances", true, CLEAR_STORES);
   DAL.SetUp.Index(OrdnanceStore, "Name", true);
   //#endregion
 
@@ -58,11 +62,16 @@ DBReq.onupgradeneeded = function(event) {
 
 let DAL ={
   SetUp: {
-    NewObjectStore: function(storeName, autoIncrement) {
+    NewObjectStore: function(storeName, autoIncrement, clearStore) {
       if (!DB.objectStoreNames.contains(storeName)){
         return DB.createObjectStore(storeName, {autoIncrement: autoIncrement});
       } else {
-        return DBReq.transaction.objectStore(storeName);
+        store = DBReq.transaction.objectStore(storeName);
+        if (clearStore) {
+          console.log("Clearing store: " + storeName)
+          store.clear();
+        }
+        return store;
       }
     },
     Transaction: function(storeName, action){
@@ -73,6 +82,7 @@ let DAL ={
 
       transaction.onerror = function (event) {
         alert("Transaction for " + storeName + " recieved an error.");
+        console.log(event)
       }
 
       return transaction;
@@ -90,15 +100,15 @@ let DAL ={
 
       var request = transaction.objectStore(storeName).add(data);
       request.onsuccess = function(event) {
-        alert("Request successful");
-        success();
+        alert("Insert Request successful");
+        success(event);
       }
     },
     BatchInsert: function(storeName, dataList, success){
       console.log(dataList);
-      // dataList.array.forEach(data => {
-      //   DAL.Base.Insert(storeName, data, success);
-      // })
+      dataList.forEach(data => {
+        DAL.Base.Insert(storeName, data, success);
+      })
     },
     GetAll: function(storeName, success) {
       var transaction = DAL.SetUp.Transaction(storeName, "readwrite");
@@ -107,7 +117,8 @@ let DAL ={
       var request = store.getAll();
 
       request.onsuccess = function(event){
-        success(event);
+        success(event.target.result);
+        console.log("We are in the onsuccess method")
         console.log(event.target.result);
       }
 
@@ -119,10 +130,10 @@ let DAL ={
       // There isn't a way currently to do multiple filters with IndexedDB, so my thoughts are to due them in memory. Obviously, this won't
       // work for large sets of data, but I don't think there would be a table that big, unless someone is really into creating character...
       if (DAL.Ordnance.Ordnances.length == 0)  {
-        DAL.Base.GetAll("Ordnances", function(event) {
+        DAL.Base.GetAll("Ordnances", function(data) {
           console.log("Success!!!!! We done got dem ordnances!");
-          DAL.Ordnance.Ordnances = event.result;
-          console.log(event.result);
+          DAL.Ordnance.Ordnances = data;
+          console.log(data);
         })
       }
       return DAL.Ordnance.Ordnances;
