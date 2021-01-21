@@ -99,6 +99,12 @@ let DAL ={
       var transaction = DAL.SetUp.Transaction(storeName, "readwrite");
 
       var request = transaction.objectStore(storeName).add(data);
+      console.log("Request");
+      console.log(request);
+      console.log("transaction")
+      console.log(transaction)
+      console.log("store")
+      console.log(transaction.objectStore(storeName))
       request.onsuccess = function(event) {
         alert("Insert Request successful");
         success(event);
