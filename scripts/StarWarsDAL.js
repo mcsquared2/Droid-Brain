@@ -16,9 +16,9 @@ DBReq.onsuccess = function (event){
     console.log("Getting all ordnances");
     DAL.Base.GetAll("Ordnances", SiteBuilder.Populate.OrdnanceTable);
   }
-  DAL.Base.Insert("Ordnances", new Ordnance("Boom Boom Stick", 1,1, 1, false, 5, 1, "engaged", "NA", "mcsquared", "homebrew"), (event) => {
-    console.log(event);
-  });
+  // DAL.Base.Insert("Ordnances", new Ordnance("Boom Boom Stick", 1,1, 1, false, 5, 1, "engaged", "NA", "mcsquared", "homebrew"), (event) => {
+  //   console.log(event);
+  // });
 }
 
 DBReq.onerror = function(event) {
@@ -124,8 +124,6 @@ let DAL ={
 
       request.onsuccess = function(event){
         success(event.target.result);
-        console.log("We are in the onsuccess method")
-        console.log(event.target.result);
       }
 
     }

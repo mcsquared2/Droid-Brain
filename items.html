@@ -15,6 +15,26 @@
 <body>
 
     <h1>Ordnances</h1>
+    <button>Add Ordnance</button>
+    <div id="add-ordnance-form">
+        <label>Name</label><input id="add-ordnance-name" type="text">
+        <label>Base Damage</label><input id="add-ordnance-base-damage" type="number" min="0">
+        <label>Additional Damage</label><input id="add-ordnance-additional-damage" type="number" min="0">
+        <label>Encumbrance</label><input id="add-ordnance-encumbrance" type="number" min="0">
+        <label>Restricted</label><input id="add-ordnance-restricted" type="checkbox" min="0">
+        <label>Price</label><input id="add-ordnance-price" type="number" min="0">
+        <label>Rarity</label><input id="add-ordnance-rarity" type="number" min="1" max="10">
+        <label>Blast Radius</label><select id="add-ordnance-blast-radius" name="add-ordnance-blast-radius">
+            <option value="engaged">Engaged</option>
+            <option value="short">Short</option>
+            <option value="medium">Medium</option>
+            <option value="long">Long</option>
+            <option value="extreme">Extreme</option>
+        </select>
+        <label>Abilities</label>
+        <label>Source</label> <input id="add-ordnance-source" type="text">
+
+    </div>
     <div id="ordnances-placeholder"></div>
     
     <script src="scripts/jquery-3.5.1.min.js"></script>

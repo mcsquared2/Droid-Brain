@@ -15,9 +15,9 @@ var SiteBuilder = {
             $("#nav-placeholder").append(links);
             
         },
-        OrdnanceRow: function(data, rowProperties) {
-            var row = $("<tr>").addClass(properties.rowClass);
-            row.append($("td").text(element.Name));
+        OrdnanceRow: function(data) {
+            var row = $("<tr>");
+            row.append($("td").text(data.Name));
             return row;
         },
         OrdnanceHeader: function() {
@@ -44,7 +44,18 @@ var SiteBuilder = {
                 table.empty();
             }
             // var data = DAL.Ordnance.GetAll();
-            console.log(DAL.Ordnance.Ordnances);
+            console.log("This is the population method");
+            console.log(data)
+            console.log(table);
+            data.forEach(d => {
+                console.log(d);
+                table = document.getElementById("ordnances");
+                row = table.insertRow();
+                ordnanceName = row.insertCell(0);
+                ordnanceName.innerHTML = d.Name;
+                // table.append(SiteBuilder.Build.OrdnanceRow(d));
+                
+            })
         }
         
     }
