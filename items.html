@@ -15,8 +15,8 @@
 <body>
 
     <h1>Ordnances</h1>
-    <button>Add Ordnance</button>
-    <div id="add-ordnance-form">
+    <button id="toggle-add-ordnance-btn" onclick="ToggleAddOrdnance()">Add Ordnance</button>
+    <div id="add-ordnance-form" hidden>
         <label>Name</label><input id="add-ordnance-name" type="text">
         <label>Base Damage</label><input id="add-ordnance-base-damage" type="number" min="0">
         <label>Additional Damage</label><input id="add-ordnance-additional-damage" type="number" min="0">
@@ -36,6 +36,7 @@
             <button>Add Ability</button>
         <hr>
         <label>Source</label> <input id="add-ordnance-source" type="text">
+        <button>Save Ordnance</button>
 
     </div>
     <div id="ordnances-placeholder"></div>
@@ -45,6 +46,7 @@
     <script src="scripts/constants.js"></script>
     <script src="scripts/StarWarsDAL.js"></script>
     <script src="scripts/siteBuilder.js"></script>
+    <script src="scripts/items.js"></script>
     <script>
         SiteBuilder.Build.NavBar("items");
     </script>
