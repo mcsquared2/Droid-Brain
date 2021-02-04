@@ -26,33 +26,49 @@ class Character {
         obligations,
         notes,
         motivation, 
-        description){
+        description,
+        appliedHistory){
             this.Name = name;
-            this.speciesId = speciesId;
-            this.careers = careers;
-            this.soak = soak;
-            this.woundThreshold = woundThreshold;
-            this.currentWounds = currentWounds;
-            this.strainThreshold = strainThreshold;
-            this.meleeDefense = meleeDefense;
-            this.rangeDefense = rangeDefense;
-            this.brawn = brawn;
-            this.agility = agility;
-            this.intelligence = intelligence;
-            this.cunning = cunning;
-            this.willpower = willpower;
-            this.presence = presence;
-            this.careerSkills = careerSkills;
-            this.skillRanks = skillRanks;
-            this.totalXp = totalXp;
-            this.availableXp = availableXp;
-            this.xpHistory = xpHistory;
-            this.credits = credits;
-            this.creditHistory = creditHistory;
-            this.background = background;
-            this.obligations = obligations;
-            this.notes = notes;
-            this.motivation = motivation;
-            this.description = description;
+            this.SpeciesId = speciesId;
+            this.Careers = careers;
+            this.Soak = soak;
+            this.WoundThreshold = woundThreshold;
+            this.CurrentWounds = currentWounds;
+            this.StrainThreshold = strainThreshold;
+            this.MeleeDefense = meleeDefense;
+            this.RangeDefense = rangeDefense;
+            this.Brawn = brawn;
+            this.Agility = agility;
+            this.Intelligence = intelligence;
+            this.Cunning = cunning;
+            this.Willpower = willpower;
+            this.Presence = presence;
+            this.CareerSkills = careerSkills;
+            this.SkillRanks = skillRanks;
+            this.TotalXp = totalXp;
+            this.AvailableXp = availableXp;
+            this.XpHistory = xpHistory;
+            this.Credits = credits;
+            this.CreditHistory = creditHistory;
+            this.Background = background;
+            this.Obligations = obligations;
+            this.Notes = notes;
+            this.Motivation = motivation;
+            this.Description = description;
+            this.AppliedHistory = appliedHistory;
+        }
+
+        ApplyXp(xpGain){
+            this.TotalXp += xpGain.Xp;
+            this.XpHistory[xpGain.timestamp] = xpGain;
+        }
+
+        ApplyCredits(creditGain) {
+            this.Credits += creditGain.credits;
+            this.CreditHistory[creditGain.timestamp] = creditgain;
+        }
+
+        ApplyCondition(condition){
+            
         }
 }
