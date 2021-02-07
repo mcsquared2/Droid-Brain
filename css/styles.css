@@ -7,3 +7,14 @@ body {
     width: 300px;
     height: 300px;
 }
+
+.sw-box{
+    grid-row-start:2;
+    grid-row-end:2;
+    
+}
+
+#character-display{
+    display:grid;
+    grid-template-columns: 10;
+}

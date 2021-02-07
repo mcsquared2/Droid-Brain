@@ -15,25 +15,29 @@
 <body>
 
     <div id="character-display">
-        <label>Name:</label>
+        <label>Name:<span id="name-value"></span></label>
         <hr>
-        <label>Species</label>
+        <label>Species: <span id="species-value"></span></label>
         <label>Career: </label>
         <label>Specialization</label>
-        <div>Soak</div>
+        <div class="sw-box">
+            Soak
+            <hr> 
+            <span id="soak-value"></span>
+        </div>
         <div>
             Wounds
             <hr>
-            threshold: 
+            threshold: <span id="wound-threshold-value"></span>
             <hr>
-            Current:
+            Current: <span id="wound-current-value"></span>
         </div>
         <div>
             Armor
             <hr>
-            Ranged: 
+            Ranged: <span id="armor-ranged-value"></span>
             <hr>
-            Melee: 
+            Melee: <span id="armor-melee-value"></span>
         </div>
         <div id="characteristics-display">
             <div class="characteristic">
@@ -44,7 +48,8 @@
                 </span>
             </div>
         </div>
-        
+        <div id="skill-display">
+        </div>
     </div>
     
     <script src="scripts/jquery-3.5.1.min.js"></script>
