@@ -9,12 +9,15 @@ body {
 }
 
 .sw-box{
-    grid-row-start:2;
-    grid-row-end:2;
-    
+    /* grid-row-start:2;
+    grid-row-end:2; */
+    /* -ms-grid-column-span: 1; */
+    /* display: inline-grid;    */
+    grid-column: auto / span 1;
 }
 
 #character-display{
-    display:grid;
-    grid-template-columns: 10;
+    display: grid;
+    grid-column-gap:50px;
+    grid-template-columns: 150px 150px 150px 150px 150px 150px;
 }
